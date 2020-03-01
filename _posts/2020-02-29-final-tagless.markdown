@@ -68,7 +68,7 @@ trait Monad[M[_]] {
 
 Various other behaviors can be derived from these definitions:
 {% highlight scala %}
-def map[A, B](ma: M[A])(f: A => B): M[B] = (pure compose f)(ma)
+def map[A, B](ma: M[A])(f: A => B): M[B] = flatMap(ma)(pure compose f)
 def flatten[A](mma: M[M[A]]): M[A] = flatMap(mma)(identity)
 def ap[A, B](ma: M[A])(mf: M[A => B]): M[B] = flatMap(mf)(map(ma))
 {% endhighlight %}

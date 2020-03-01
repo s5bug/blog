@@ -382,6 +382,35 @@ TwoPlusThree(PureCalculator) // => 5: Int
 TwoPlusThree(LispCalculator) // => "(+ 2 3)": String
 {% endhighlight %}
 
+#### Using IO in Calculator
+
+Say we want to run calculations by doing web requests. That's a side effect, so
+we need to do it with IO:
+{% highlight scala %}
+object WebreqCalculator extends Calculator[IO] {
+
+  def lift(value: Int): IO[Int] = IO.pure(value)
+
+  def add(a: IO[Int], b: IO[Int]): IO[Int] =
+    a.flatMap(aVal => b.flatMap(bVal => fetch(s"example.com/add/$aVal/$bVal"))
+  // etc
+
+}
+{% endhighlight %}
+
+The beauty of using IO for this is that it keeps its properties, even when
+passed through a Tagless DSL:
+{% highlight scala %}
+TwoPlusThree(WebreqCalculator) // => IO(...): IO[Int]
+// No web requests made yet!
+
+object RunTwoPlusThree extends IOApp {
+  override def run: IO[Unit] =
+    TwoPlusThree(WebreqCalculator).flatMap(puts)
+    // Does web requests, prints the result
+}
+{% endhighlight %}
+
 ## Summary
 
 Always start with the most basic version of your DSL. Then try to generify it

@@ -111,7 +111,7 @@ implicit def stateMonad[S]: Monad[State[S, *]] = new Monad[State[S, *]] {
     s => (s, a)
   def flatMap[A, B](sa: State[S, A])(f: A => State[S, B]) =
     originalS => {
-      val (newS, value) = sa(originalState)
+      val (newS, value) = sa(originalS)
       val newState = f(value)
       newState(newS)
     }

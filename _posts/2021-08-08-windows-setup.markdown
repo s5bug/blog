@@ -153,7 +153,7 @@ should:
 1. Move `C:\ProgramData\chocolatey` to `_YOUR_NEW_CHOCOLATEY_DIR_` (I chose
    `F:\Win\ProgramData\chocolatey`)
 2. "Edit the system environment variables" then point `ChocolateyInstall` to
-   `{{YOUR_NEW_CHOCOLATEY_DIR}}` and update the corresponding entries in
+   `_YOUR_NEW_CHOCOLATEY_DIR_` and update the corresponding entries in
    `Path`.
 
 ### Install `gsudo` (o)
@@ -190,13 +190,13 @@ to launch `Windows10DebloaterGUI`.
 
 Run these options:
 
-Remove All Bloatware
+**Remove All Bloatware**
 : Disables any sort of advertising. Removes unimportant applications.
 
-Disable Cortana
+**Disable Cortana**
 : Does what it says on the box.
 
-Uninstall OneDrive
+**Uninstall OneDrive**
 : Completely removes OneDrive support from Explorer. Will create a backup of
   your OneDrive files on your Desktop.
 
@@ -251,6 +251,11 @@ the `vc_redist.x64.exe` from
 [https://www.microsoft.com/en-us/download/details.aspx?id=52685](https://www.microsoft.com/en-us/download/details.aspx?id=52685).
 
 ## Known Bugs
+
+These are most likely results of moving things to `F:\`, and wouldn't occur
+normally, however
+[this kind of set-up is acknowledged by Microsoft](https://docs.microsoft.com/en-us/troubleshoot/windows-server/user-profiles-and-logon/relocation-of-users-and-programdata-directories)
+and should be considered valid.
 
 Eventually I'll get issues / bug report numbers open for all of these.
 

@@ -271,6 +271,14 @@ entire computer, rendering it unable to shutdown properly.
 The Discord Canary desktop client thinks that it is running in an unsupported
 web browser and will not let you unmute or share your screen.
 
+### Jabba
+
+Bug report: [https://github.com/shyiko/jabba/issues/804](https://github.com/shyiko/jabba/issues/804)
+
+Jabba assumes that `Users` lives in `C:\`, so it doesn't properly load itself
+on the next time PowerShell is launched. This can be fixed by modifying
+`Documents\PowerShell\Microsoft.PowerShell_profile.ps1`.
+
 ### Windows Terminal
 
 Bug report:

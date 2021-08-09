@@ -43,26 +43,26 @@ This is a list of terms, including drive names. These names may be different
 for your setup. **I will not be mentioning when you should replace a drive name
 with your own. Look out for drive names in commands and variable strings.**
 
-(o)
+**(o)**
 : This marks a section that is mainly opinionated. It doesn't align with the
   goals of the guide, but might be helpful for people who don't want to manage
   something when it comes up down the line.
 
-The Windows Machine
+**The Windows Machine**
 : A fresh Windows 10 installation
 
-`C:\`
+**`C:\`**
 : The boot drive/partition of Windows 10. This is the smaller/faster of the two
   drives in the two-drive setup.
 
-`F:\`
+**`F:\`**
 : The data and programs partition. When dual-booting Linux, this is your
   "shared with Linux" drive. In this case, it must be formatted to a filesystem
   that can be used on both Windows and Linux such as
   [BTRFS](https://github.com/maharmstone/btrfs). **Do your own research.** I am
   not to be trusted with filesystems.
 
-Special Directories
+**Special Directories**
 : These are directories that can be relocated per-user, such as Documents,
   Downloads, Desktop, Pictures, and Videos.
 
@@ -80,14 +80,14 @@ root, called `relocate.xml`:
   <settings pass="oobeSystem">
     <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <FolderLocations>
-        <ProfilesDirectory>{{YOUR_NEW_USERS_DIR}}</ProfilesDirectory>
+        <ProfilesDirectory>_YOUR_NEW_USERS_DIR_</ProfilesDirectory>
       </FolderLocations>
     </component>
   </settings>
 </unattend>
 {% endhighlight %}
 
-Make sure to change `{{YOUR_NEW_USERS_DIR}}` to the desired name of your
+Make sure to change `_YOUR_NEW_USERS_DIR_` to the desired name of your
 `Users` directory, for example `F:\Win\Users`.
 
 Open an administrator command prompt. It should open to `System32`, if not you
@@ -97,7 +97,7 @@ can `cd %WinDir%\System32\`. Once you're in `System32`, you can run
 .\Sysprep\sysprep.exe /oobe /reboot /unattend:F:\relocate.xml
 ```
 
-This command will move `C:\Users` to `{{YOUR_NEW_USERS_DIR}}`. When you run
+This command will move `C:\Users` to `_YOUR_NEW_USERS_DIR_`. When you run
 this command, two things will happen:
 1. `sysprep` will take a while to finish, and then reboot
 2. The next boot back into Windows 10 will take a _long_ time to finish
@@ -139,16 +139,18 @@ that says "Use Unicode UTF-8 for worldwide language support".
 
 ### Install the Latest PowerShell (o)
 
-Instructions for this lie at https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-windows
+Instructions for this lie at
+[https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-windows](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-windows).
 
 ### Install Chocolatey
 
-Follow the default installation instructions on https://chocolatey.org/install.
-This should install Chocolatey to `C:\ProgramData\chocolatey`.
+Follow the default installation instructions on
+[https://chocolatey.org/install](https://chocolatey.org/install). This should
+install Chocolatey to `C:\ProgramData\chocolatey`.
 
 If you want Chocolatey to be installed in `F:\` (you most likely do!) then you
 should:
-1. Move `C:\ProgramData\chocolatey` to `{{YOUR_NEW_CHOCOLATEY_DIR}}` (I chose
+1. Move `C:\ProgramData\chocolatey` to `_YOUR_NEW_CHOCOLATEY_DIR_` (I chose
    `F:\Win\ProgramData\chocolatey`)
 2. "Edit the system environment variables" then point `ChocolateyInstall` to
    `{{YOUR_NEW_CHOCOLATEY_DIR}}` and update the corresponding entries in
@@ -178,12 +180,13 @@ Chrome to `%LocalAppData%`) and run `choco install googlechrome`.
 
 WinCompose allows you to enter special characters without the hassle of
 remembering numeric Alt-codes. It's available at
-https://github.com/samhocevar/wincompose.
+[https://github.com/samhocevar/wincompose](https://github.com/samhocevar/wincompose).
 
 ### Sycnex Debloater
 
-Follow the instructions at https://github.com/Sycnex/Windows10Debloater to
-launch `Windows10DebloaterGUI`.
+Follow the instructions at
+[https://github.com/Sycnex/Windows10Debloater](https://github.com/Sycnex/Windows10Debloater)
+to launch `Windows10DebloaterGUI`.
 
 Run these options:
 
@@ -200,7 +203,8 @@ Uninstall OneDrive
 ### Shutup10
 
 This is a tool that fine-tunes the debloating done by Sycnex Debloater. It's
-available to download from https://www.oo-software.com/en/shutup10.
+available to download from
+[https://www.oo-software.com/en/shutup10](https://www.oo-software.com/en/shutup10).
 
 You will want to choose "Actions" and then "Apply only recommended settings".
 
@@ -219,9 +223,10 @@ of Vim and Git Bash. Git for Windows provides a distribution called "MinGit"
 that does exactly this.
 
 Navigate to the latest release of Git for Windows:
-https://github.com/git-for-windows/git/releases/latest. Download the latest
-version of `MinGit` that does **not** mention `busybox`, and is `64-bit`. (At
-the time of writing, this is `MinGit-2.32.0.2-64-bit.zip`.)
+[https://github.com/git-for-windows/git/releases/latest](https://github.com/git-for-windows/git/releases/latest).
+Download the latest version of `MinGit` that does **not** mention `busybox`,
+and is `64-bit`. (At the time of writing, this is
+`MinGit-2.32.0.2-64-bit.zip`.)
 
 Extract the contents to a folder called `Git` in your `%LocalAppData%`, such
 that `git` can be found at `%LocalAppData%\Git\cmd\git.exe`. Then add the full
@@ -243,7 +248,7 @@ Invoke-WebRequest -Uri "https://git.io/coursier-cli-windows-exe" -OutFile "cs.ex
 
 Try to run `.\cs.exe`. If you get a VCRUNTIME140.DLL missing error, download
 the `vc_redist.x64.exe` from
-https://www.microsoft.com/en-us/download/details.aspx?id=52685.
+[https://www.microsoft.com/en-us/download/details.aspx?id=52685](https://www.microsoft.com/en-us/download/details.aspx?id=52685).
 
 ## Known Bugs
 
@@ -263,7 +268,8 @@ web browser and will not let you unmute or share your screen.
 
 ### Windows Terminal
 
-Bug report: https://github.com/microsoft/terminal/issues/10899
+Bug report:
+[https://github.com/microsoft/terminal/issues/10899](https://github.com/microsoft/terminal/issues/10899)
 
 The Windows Terminal will not run, citing a failure to find a drive (although
 which drive that is is not mentioned).

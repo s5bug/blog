@@ -9,8 +9,10 @@ tags: windows
 ## Intended Audience
 
 The instructions for this guide are geared towards users who are comfortable
-with Linux and want a useful setup or dual-boot a Linux OS and want to share
-data with it.
+with Linux and want a useful setup, or dual-boot a Linux OS and want to share
+data with it. For the latter, this guide uses `F:\` to refer to the shared
+drive. If you do not need a shared drive, you can mostly ignore those
+instructions.
 
 Note: Previous iterations of this blog post included instructions on how to
 move `C:\Users` to a different drive. This has since been confirmed by
@@ -206,6 +208,15 @@ can run this command for PowerShell:
 {% highlight powershell %}
 Invoke-WebRequest -Uri "https://git.io/coursier-cli-windows-exe" -OutFile "cs.exe"
 {% endhighlight %}
+
+Before running `.\cs.exe`, make sure to set the `COURSIER_CACHE` environment
+variable to the location of your choice: Coursier has a bug right now where it
+will fail to find the default cache location
+([#2031](https://github.com/coursier/coursier/issues/2031),
+[#2118](https://github.com/coursier/coursier/issues/2118)). When using `F:\`,
+you may want something like `F:\Win\Program Files\Coursier\Cache`. If you're
+not sure, refer to the
+[the Coursier cache documentation](https://get-coursier.io/docs/cache#default-location).
 
 Try to run `.\cs.exe`. If you get a VCRUNTIME140.DLL missing error, or nothing
 happens, download the `vc_redist.x64.exe` from

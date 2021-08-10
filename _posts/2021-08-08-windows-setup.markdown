@@ -8,18 +8,14 @@ tags: windows
 
 ## Intended Audience
 
-The instructions for this guide are geared towards users who either:
-1. Want to share as much data as possible between a Windows installation and a
-   Linux installation on the same machine
-2. Need to keep space on a small, fast drive that Windows boots off of
-3. Both: I made this guide because I need to record videos to my SSD because
-   my HDD is much too slow
+The instructions for this guide are geared towards users who are comfortable
+with Linux and want a useful setup or dual-boot a Linux OS and want to share
+data with it.
 
-If you only use one drive, and do not need to split your install across two
-drives or share data between another OS, you should be able to skip most
-instructions that mention `F:\`. For example, you will not need to modify the
-installation location of programs. However, you will still need to modify
-certain environment variables.
+Note: Previous iterations of this blog post included instructions on how to
+move `C:\Users` to a different drive. This has since been confirmed by
+Microsoft Support to create an invalid system configuration, and from
+experience will break a lot of things.
 
 ### Extra Goals
 
@@ -66,48 +62,7 @@ with your own. Look out for drive names in commands and variable strings.**
 : These are directories that can be relocated per-user, such as Documents,
   Downloads, Desktop, Pictures, and Videos.
 
-## First Boot: Mounting `F:\` and Moving `C:\Users`
-
-_You can skip this section if not using `F:\`._
-
-First, install the drivers that allow you to mount your `F:\`. Once you have
-verified that `F:\` has mounted and is read-writeable, create a file at the
-root, called `relocate.xml`:
-
-{% highlight xml %}
-<?xml version="1.0" encoding="utf-8"?>
-<unattend xmlns="urn:schemas-microsoft-com:unattend">
-  <settings pass="oobeSystem">
-    <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <FolderLocations>
-        <ProfilesDirectory>_YOUR_NEW_USERS_DIR_</ProfilesDirectory>
-      </FolderLocations>
-    </component>
-  </settings>
-</unattend>
-{% endhighlight %}
-
-Make sure to change `_YOUR_NEW_USERS_DIR_` to the desired name of your
-`Users` directory, for example `F:\Win\Users`.
-
-Open an administrator command prompt. It should open to `System32`, if not you
-can `cd %WinDir%\System32\`. Once you're in `System32`, you can run
-
-```
-.\Sysprep\sysprep.exe /oobe /reboot /unattend:F:\relocate.xml
-```
-
-This command will move `C:\Users` to `_YOUR_NEW_USERS_DIR_`. When you run
-this command, two things will happen:
-1. `sysprep` will take a while to finish, and then reboot
-2. The next boot back into Windows 10 will take a _long_ time to finish
-
-If your BIOS is configured to boot into Windows Boot Manager first, I suggest
-running `sysprep` and then going to do something else for a bit. If not, wait
-for `sysprep` to reboot your machine, start the boot into Windows, and then
-go do something else for a bit.
-
-## Second Boot
+## First Boot
 
 ### Relocating Special Directories
 
@@ -135,7 +90,7 @@ and Region". In the new "Region" window that opens, select the "Administrative"
 tab. Click the button that says "Change system locale..." and enable the box
 that says "Use Unicode UTF-8 for worldwide language support".
 
-## Third Boot
+## Second Boot
 
 ### Install the Latest PowerShell (o)
 
@@ -156,7 +111,7 @@ should:
    `_YOUR_NEW_CHOCOLATEY_DIR_` and update the corresponding entries in
    `Path`.
 
-### Install `gsudo` (o)
+### Install `gsudo`
 
 `gsudo` is the Windows equivalent of Linux's `sudo`. It lets you elevate
 commands without starting a new command prompt. To install it, open an
@@ -173,8 +128,8 @@ it now.
 If you prefer something other than Microsoft Edge, you might want to look at
 installing it through Chocolatey.
 
-I am a Google Chrome user, so I must run a _non_-Elevated shell (to install
-Chrome to `%LocalAppData%`) and run `choco install googlechrome`.
+I am a Google Chrome user, so I run `gsudo choco install googlechrome` to
+install Chrome across the whole computer instead of just at user-level.
 
 ### Install WinCompose (o)
 
@@ -198,7 +153,9 @@ Run these options:
 
 **Uninstall OneDrive**
 : Completely removes OneDrive support from Explorer. Will create a backup of
-  your OneDrive files on your Desktop.
+  your OneDrive files on your Desktop. If you get notifications about `pwsh`
+  downloading a bunch of files, then you can permanently block the app to make
+  the Debloater think there are no files left to download.
 
 ### Shutup10
 
@@ -228,61 +185,32 @@ Download the latest version of `MinGit` that does **not** mention `busybox`,
 and is `64-bit`. (At the time of writing, this is
 `MinGit-2.32.0.2-64-bit.zip`.)
 
-Extract the contents to a folder called `Git` in your `%LocalAppData%`, such
-that `git` can be found at `%LocalAppData%\Git\cmd\git.exe`. Then add the full
-path to the `cmd` folder to your User `Path` environment variable.
+If you want Git to be installed for all users, you can extract it to
+`C:\Program Files\`, such that `git` can be found at
+`C:\Program Files\Git\cmd\git.exe`. Make sure to edit
+`C:\Program Files\Git\etc\gitconfig` to not be self-referential.
 
-### Java
+If not, extract `Git` to your
+`%LocalAppData%`, such that `git` can be found at
+`%LocalAppData%\Git\cmd\git.exe`.
 
-**As of currently, Coursier doesn't work. Use
-[Jabba](https://github.com/shyiko/jabba) instead.**
+Then add the full path to the `cmd` folder to
+your User `Path` environment variable.
 
-[Coursier](https://get-coursier.io/) ships with a Java manager. However, the
-instructions given on the Coursier website for installing the CLI do not work
-at the time of writing. Instead, open a PowerShell window and download
-`cs.exe`:
+### Java + Scala
+
+If you will also need Scala tools, [Coursier](https://get-coursier.io/) ships
+with a Java manager. Instead of following the instructions for using `cmd`, you
+can run this command for PowerShell:
 
 {% highlight powershell %}
 Invoke-WebRequest -Uri "https://git.io/coursier-cli-windows-exe" -OutFile "cs.exe"
 {% endhighlight %}
 
-Try to run `.\cs.exe`. If you get a VCRUNTIME140.DLL missing error, download
-the `vc_redist.x64.exe` from
+Try to run `.\cs.exe`. If you get a VCRUNTIME140.DLL missing error, or nothing
+happens, download the `vc_redist.x64.exe` from
 [https://www.microsoft.com/en-us/download/details.aspx?id=52685](https://www.microsoft.com/en-us/download/details.aspx?id=52685).
 
-## Known Bugs
+### Java (no Scala)
 
-These are most likely results of moving things to `F:\`, and wouldn't occur
-normally, however
-[this kind of set-up is acknowledged by Microsoft](https://docs.microsoft.com/en-us/troubleshoot/windows-server/user-profiles-and-logon/relocation-of-users-and-programdata-directories)
-and should be considered valid.
-
-Eventually I'll get issues / bug report numbers open for all of these.
-
-### Coursier
-
-Attempting to let Coursier install a JDK results in an Access Denied Exception.
-
-### Discord
-
-Joining voice channels in the Discord Stable desktop client will hang the
-entire computer, rendering it unable to shutdown properly.
-
-The Discord Canary desktop client thinks that it is running in an unsupported
-web browser and will not let you unmute or share your screen.
-
-### Jabba
-
-Bug report: [https://github.com/shyiko/jabba/issues/804](https://github.com/shyiko/jabba/issues/804)
-
-Jabba assumes that `Users` lives in `C:\`, so it doesn't properly load itself
-on the next time PowerShell is launched. This can be fixed by modifying
-`Documents\PowerShell\Microsoft.PowerShell_profile.ps1`.
-
-### Windows Terminal
-
-Bug report:
-[https://github.com/microsoft/terminal/issues/10899](https://github.com/microsoft/terminal/issues/10899)
-
-The Windows Terminal will not run, citing a failure to find a drive (although
-which drive that is is not mentioned).
+Install [Jabba](https://github.com/shyiko/jabba).

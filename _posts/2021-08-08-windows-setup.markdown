@@ -257,3 +257,62 @@ happens, download the `vc_redist.x64.exe` from
 ### Java (no Scala)
 
 Install [Jabba](https://github.com/shyiko/jabba).
+
+### JavaScript (Node + Yarn)
+
+Install [nvm-windows](https://github.com/coreybutler/nvm-windows). Once you
+have a `node` installed, install Yarn with `gsudo npm install --global yarn`.
+
+Yarn by default will dump things in `%LocalAppData%\Yarn\`. If you use `F:\`,
+you most likely don't want this. Configure Yarn to use a more appropriate
+directory:
+
+```
+yarn config set prefix _YARN_ROOT_
+yarn config set cache-folder _YARN_ROOT_\Cache
+yarn config set global-folder _YARN_ROOT_\Data\global
+```
+
+Replacing all instances of `_YARN_ROOT_` with your desired Yarn root, for
+example `F:\Win\Yarn`. You do not have to create a `YARN_ROOT` environment
+variable, although you can if you would like.
+
+Next, add the output of `yarn global bin` to your `Path`. For example, if your
+output looked like
+
+```
+PS> yarn global bin
+F:\Win\Yarn\bin
+```
+
+You would add `F:\Win\Yarn\bin` to your `Path`. If you created a `YARN_ROOT`
+environment variable, you can substitute it here.
+
+Note that there is currently a bug in Yarn where it will think it's running on
+a Linux machine when generating wrappers
+([#6295](https://github.com/yarnpkg/yarn/issues/6295)). You will need to edit
+any of the `.cmd` files of installed binaries. For example, with
+`yarn global add vsce`, you would want to edit the `vsce.cmd` found in the
+`yarn global bin` folder from
+
+```
+@IF EXIST "%~dp0\/bin/sh" (
+  "%~dp0\/bin/sh"  "%~dp0\..\Data\global\node_modules\.bin\vsce" %*
+) ELSE (
+  @SETLOCAL
+  @SET PATHEXT=%PATHEXT:;.JS;=;%
+  /bin/sh  "%~dp0\..\Data\global\node_modules\.bin\vsce" %*
+)
+```
+
+to
+
+```
+@IF EXIST "%~dp0\cmd.exe" (
+  "%~dp0\cmd.exe"  "%~dp0\..\Data\global\node_modules\.bin\vsce.cmd" %*
+) ELSE (
+  @SETLOCAL
+  @SET PATHEXT=%PATHEXT:;.JS;=;%
+  cmd /c "%~dp0\..\Data\global\node_modules\.bin\vsce.cmd" %*
+)
+```

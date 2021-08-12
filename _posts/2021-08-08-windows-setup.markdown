@@ -199,6 +199,38 @@ If not, extract `Git` to your
 Then add the full path to the `cmd` folder to
 your User `Path` environment variable.
 
+### Haskell (Stack)
+
+The 64-bit Windows installer from
+[the Stack README](https://docs.haskellstack.org/en/stable/README/) will work,
+as long as you install it to a directory without spaces in the path (such as
+`F:\Win\Stack\bin`, whereas an invalid location would be `C:\Program Files\`).
+
+Once this is done, you will want to fix the `STACK_ROOT` environment variable
+to point to somewhere more favorable than `C:\sr`. Pointing it to the parent
+of where you installed Stack will work as long as it's in its own directory
+(for example, `F:\Win\Stack`).
+
+Next, run `stack path`. This will download some stuff to
+`%LocalAppData%\Programs\stack`, but don't worry, we'll get rid of it. Once
+`stack path` finishes running, look for a `config.yaml` in the folder you
+installed Stack to. Edit it to add the two keys at the bottom:
+
+{% highlight yaml %}
+local-programs-path: _STACK_ROOT_\programs
+local-bin-path: _STACK_ROOT_\bin
+{% endhighlight %}
+
+Replacing both instances of `_STACK_ROOT_` with your Stack root, for example
+
+{% highlight yaml %}
+local-programs-path: F:\Win\Stack\programs
+local-bin-path: F:\Win\Stack\bin
+{% endhighlight %}
+
+You can then delete `%LocalAppData%\Programs\stack`. If you'd like, you can run
+`stack path` again to check if the changes to `config.yaml` are valid.
+
 ### Java + Scala
 
 If you will also need Scala tools, [Coursier](https://get-coursier.io/) ships

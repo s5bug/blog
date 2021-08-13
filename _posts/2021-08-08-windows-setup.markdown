@@ -316,3 +316,17 @@ to
   cmd /c "%~dp0\..\Data\global\node_modules\.bin\vsce.cmd" %*
 )
 ```
+
+### Rust
+
+Install the
+[Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/).
+The default options will work. If you use `F:\`, you will want to change the
+directories listed in the "Install Locations" tab.
+
+Download `rustup-init.exe` from [the rustup website](https://rustup.rs/). If
+you use `F:\`, make sure to set the `RUSTUP_HOME` and `CARGO_HOME` environment
+variables to your desired locations. If you're not sure, refer to
+[the Rust documentation](https://rust-lang.github.io/rustup/installation/index.html#choosing-where-to-install).
+
+Then, run `rustup-init.exe`.

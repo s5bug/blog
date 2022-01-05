@@ -250,9 +250,20 @@ you may want something like `F:\Win\Program Files\Coursier\Cache`. If you're
 not sure, refer to the
 [the Coursier cache documentation](https://get-coursier.io/docs/cache#default-location).
 
+Make sure to set `COURSIER_BIN_DIR` and `COURSIER_JVM_CACHE` as well. If you
+set `COURSIER_CACHE` to `_COURSIER_ROOT_\Cache` (in the above example,
+`_COURSIER_ROOT_` would be `F:\Win\Program Files\Coursier`), then I recommend
+`COURSIER_BIN_DIR` to be `_COURSIER_ROOT_\bin` and `COURSIER_JVM_CACHE` to be
+`_COURSIER_ROOT_\Cache\jvm`.
+
 Try to run `.\cs.exe`. If you get a VCRUNTIME140.DLL missing error, or nothing
 happens, download the `vc_redist.x64.exe` from
 [https://www.microsoft.com/en-us/download/details.aspx?id=52685](https://www.microsoft.com/en-us/download/details.aspx?id=52685).
+
+If running `.\cs.exe` succeeds, you can run `.\cs.exe setup`, which will
+install Coursier and basic Scala development tools to `COURSIER_BIN_DIR`. If
+this succeeds, you will be able to remove the downloaded `cs.exe` and run the
+`cs` that exists on your `PATH`.
 
 ### Java (no Scala)
 

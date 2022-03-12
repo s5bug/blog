@@ -139,6 +139,15 @@ WinCompose allows you to enter special characters without the hassle of
 remembering numeric Alt-codes. It's available at
 [https://github.com/samhocevar/wincompose](https://github.com/samhocevar/wincompose).
 
+### Install MacType (o)
+
+MacType offers an alternative fond renderer that makes certain text much more
+smooth and crisp. It's available at
+[https://github.com/snowie2000/mactype](https://github.com/snowie2000/mactype).
+
+If you use a Chrome-based browser, you will want to
+[disable the renderer code integrity policy](https://github.com/snowie2000/mactype/wiki/Google-Chrome#policy-thanks-to-kcohar).
+
 ### Sycnex Debloater
 
 Follow the instructions at
@@ -238,7 +247,10 @@ with a Java manager. Instead of following the instructions for using `cmd`, you
 can run this command for PowerShell:
 
 {% highlight powershell %}
-Invoke-WebRequest -Uri "https://git.io/coursier-cli-windows-exe" -OutFile "cs.exe"
+Invoke-WebRequest -Uri "https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-win32.zip" -OutFile "cs-x86_64-pc-win32.zip"
+Expand-Archive "cs-x86_64-pc-win32.zip"
+Rename-Item "cs-x86_64-pc-win32.exe" "cs.exe"
+Remove-Item "cs-x86_64-pc-win32.zip"
 {% endhighlight %}
 
 Before running `.\cs.exe`, make sure to set the `COURSIER_CACHE` environment

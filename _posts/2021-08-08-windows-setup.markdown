@@ -94,30 +94,25 @@ that says "Use Unicode UTF-8 for worldwide language support".
 
 ## Second Boot
 
+### Install WinGet
+
+WinGet should already be installed, but check
+[Microsoft's Install winget guide](https://docs.microsoft.com/en-us/windows/package-manager/winget/#install-winget)
+to make sure.
+
+Note that when running `winget install`, you have the option of specifying a
+`-l`/`--location` flag to choose the install directory. Only some installers
+will support this, however.
+
 ### Install the Latest PowerShell (o)
 
-Instructions for this lie at
-[https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-windows](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-windows).
-
-### Install Chocolatey
-
-Follow the default installation instructions on
-[https://chocolatey.org/install](https://chocolatey.org/install). This should
-install Chocolatey to `C:\ProgramData\chocolatey`.
-
-If you want Chocolatey to be installed in `F:\` (you most likely do!) then you
-should:
-1. Move `C:\ProgramData\chocolatey` to `_YOUR_NEW_CHOCOLATEY_DIR_` (I chose
-   `F:\Win\ProgramData\chocolatey`)
-2. "Edit the system environment variables" then point `ChocolateyInstall` to
-   `_YOUR_NEW_CHOCOLATEY_DIR_` and update the corresponding entries in
-   `Path`.
+PowerShell Core can be installed via `winget install Microsoft.PowerShell`.
 
 ### Install `gsudo`
 
 `gsudo` is the Windows equivalent of Linux's `sudo`. It lets you elevate
-commands without starting a new command prompt. To install it, open an
-Administrator PowerShell, and run `choco install gsudo`.
+commands without starting a new command prompt. To install it, run
+`winget install gerardog.gsudo`.
 
 ### Install a Better Terminal (o)
 
@@ -125,13 +120,15 @@ Windows Terminal, Hyper, Cmder, etc. all provide some nicer abstractions over
 the base `cmd` and `pwsh`. If you have a favorite terminal, you should install
 it now.
 
+Windows Terminal can be installed via
+`winget install Microsoft.WindowsTerminal`.
+
 ### Install a Browser (o)
 
 If you prefer something other than Microsoft Edge, you might want to look at
 installing it through Chocolatey.
 
-I am a Google Chrome user, so I run `gsudo choco install googlechrome` to
-install Chrome across the whole computer instead of just at user-level.
+Google Chrome can be installed via `winget install Google.Chrome`.
 
 ### Install WinCompose (o)
 
@@ -139,11 +136,15 @@ WinCompose allows you to enter special characters without the hassle of
 remembering numeric Alt-codes. It's available at
 [https://github.com/samhocevar/wincompose](https://github.com/samhocevar/wincompose).
 
+WinCompose can be installed via `winget install SamHocevar.WinCompose`.
+
 ### Install MacType (o)
 
 MacType offers an alternative fond renderer that makes certain text much more
 smooth and crisp. It's available at
 [https://github.com/snowie2000/mactype](https://github.com/snowie2000/mactype).
+
+MacType can be installed via `winget install MacType.MacType`.
 
 If you use a Chrome-based browser, you will want to
 [disable the renderer code integrity policy](https://github.com/snowie2000/mactype/wiki/Google-Chrome#policy-thanks-to-kcohar).
@@ -194,7 +195,7 @@ Navigate to the latest release of Git for Windows:
 [https://github.com/git-for-windows/git/releases/latest](https://github.com/git-for-windows/git/releases/latest).
 Download the latest version of `MinGit` that does **not** mention `busybox`,
 and is `64-bit`. (At the time of writing, this is
-`MinGit-2.32.0.2-64-bit.zip`.)
+`MinGit-2.35.1.2-64-bit.zip`.)
 
 If you want Git to be installed for all users, you can extract it to
 `C:\Program Files\`, such that `git` can be found at

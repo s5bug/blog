@@ -81,8 +81,7 @@ the special folder, pointing it to `F:\Documents` or `F:\Downloads`.
 Open an administrator PowerShell, and run
 
 {% highlight powershell %}
-New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
--Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
 {% endhighlight %}
 
 ### Using UTF-8 Instead of Latin-1 by Default

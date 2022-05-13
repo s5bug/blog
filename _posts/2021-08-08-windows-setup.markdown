@@ -157,7 +157,7 @@ If you use a Chrome-based browser, you will want to
 
 You will want to add exclusions for Source games, as the Source console will be
 effectively unreadable under MacType. When you have the game open, open the
-MacType Wizard, go to the Process Manager, find the game, and check both
+MacType Wizard, go to its Process Manager, find the game, and check both
 options under the right-click menu. Both "Exclude this process" and "Don't
 replace fonts for this process" should be checked. Relaunching the game should
 make the console readable again.

@@ -221,7 +221,9 @@ to somewhere on your `PATH`. Recommended is to add a new directory to your
 `PATH`, such as `F:\Win\ghcup\bin` or `%LocalAppData%\ghcup\bin`.
 
 Set the environment variable `GHCUP_INSTALL_BASE_PREFIX` to `F:\Win\ghcup` or
-`%LocalAppData%\ghcup` respectively. Then, run `ghcup install ghc`.
+`%LocalAppData%\ghcup` respectively. Then, run `ghcup install ghc`. Afterwards,
+there should be a new `%GHCUP_INSTALL_BASE_PREFIX%\ghcup\bin` folder that you
+should add to your `Path`.
 
 ### Java + Scala
 

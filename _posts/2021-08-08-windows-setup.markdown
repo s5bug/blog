@@ -64,6 +64,12 @@ with your own. Look out for drive names in commands and variable strings.**
 : These are directories that can be relocated per-user, such as Documents,
   Downloads, Desktop, Pictures, and Videos.
 
+**`_EXAMPLE_TEXT_`**
+: An all-caps identifier surrounded by underscores is meant to be a
+  user-defined variable. It _can_ be an environment variable if desired, but it
+  is not required to be one. If something is required to be an environment
+  variable, it should be explicitly mentioned.
+
 ## First Boot
 
 ### Relocating Special Directories
@@ -193,8 +199,7 @@ that does exactly this.
 Navigate to the latest release of Git for Windows:
 [https://github.com/git-for-windows/git/releases/latest](https://github.com/git-for-windows/git/releases/latest).
 Download the latest version of `MinGit` that does **not** mention `busybox`,
-and is `64-bit`. (At the time of writing, this is
-`MinGit-2.35.1.2-64-bit.zip`.)
+and is `64-bit`. (At the time of writing, this is `MinGit-2.36.1-64-bit.zip`.)
 
 If you want Git to be installed for all users, you can extract it to
 `C:\Program Files\`, such that `git` can be found at
@@ -208,37 +213,15 @@ If not, extract `Git` to your
 Then add the full path to the `cmd` folder to
 your User `Path` environment variable.
 
-### Haskell (Stack)
+### Haskell (GHCUp)
 
-The 64-bit Windows installer from
-[the Stack README](https://docs.haskellstack.org/en/stable/README/) will work,
-as long as you install it to a directory without spaces in the path (such as
-`F:\Win\Stack\bin`, whereas an invalid location would be `C:\Program Files\`).
+Download
+[the latest version of the GHCUp installer](https://downloads.haskell.org/~ghcup/x86_64-mingw64-ghcup.exe)
+to somewhere on your `PATH`. Recommended is to add a new directory to your
+`PATH`, such as `F:\Win\ghcup\bin` or `%LocalAppData%\ghcup\bin`.
 
-Once this is done, you will want to fix the `STACK_ROOT` environment variable
-to point to somewhere more favorable than `C:\sr`. Pointing it to the parent
-of where you installed Stack will work as long as it's in its own directory
-(for example, `F:\Win\Stack`).
-
-Next, run `stack path`. This will download some stuff to
-`%LocalAppData%\Programs\stack`, but don't worry, we'll get rid of it. Once
-`stack path` finishes running, look for a `config.yaml` in the folder you
-installed Stack to. Edit it to add the two keys at the bottom:
-
-{% highlight yaml %}
-local-programs-path: _STACK_ROOT_\programs
-local-bin-path: _STACK_ROOT_\bin
-{% endhighlight %}
-
-Replacing both instances of `_STACK_ROOT_` with your Stack root, for example
-
-{% highlight yaml %}
-local-programs-path: F:\Win\Stack\programs
-local-bin-path: F:\Win\Stack\bin
-{% endhighlight %}
-
-You can then delete `%LocalAppData%\Programs\stack`. If you'd like, you can run
-`stack path` again to check if the changes to `config.yaml` are valid.
+Set the environment variable `GHCUP_INSTALL_BASE_PREFIX` to `F:\Win\ghcup` or
+`%LocalAppData%\ghcup` respectively. Then, run `ghcup install ghc`.
 
 ### Java + Scala
 
@@ -248,9 +231,9 @@ can run this command for PowerShell:
 
 {% highlight powershell %}
 Invoke-WebRequest -Uri "https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-win32.zip" -OutFile "cs-x86_64-pc-win32.zip"
-Expand-Archive "cs-x86_64-pc-win32.zip"
-Rename-Item "cs-x86_64-pc-win32.exe" "cs.exe"
-Remove-Item "cs-x86_64-pc-win32.zip"
+Expand-Archive -Path "cs-x86_64-pc-win32.zip"
+Rename-Item -Path "cs-x86_64-pc-win32.exe" -NewName "cs.exe"
+Remove-Item -Path "cs-x86_64-pc-win32.zip"
 {% endhighlight %}
 
 Before running `.\cs.exe`, make sure to set the `COURSIER_CACHE` environment
@@ -258,15 +241,20 @@ variable to the location of your choice: Coursier has a bug right now where it
 will fail to find the default cache location
 ([#2031](https://github.com/coursier/coursier/issues/2031),
 [#2118](https://github.com/coursier/coursier/issues/2118)). When using `F:\`,
-you may want something like `F:\Win\Program Files\Coursier\Cache`. If you're
+you may want something like `F:\Win\Program Files\Coursier\Cache\v1`. If you're
 not sure, refer to the
 [the Coursier cache documentation](https://get-coursier.io/docs/cache#default-location).
 
 Make sure to set `COURSIER_BIN_DIR` and `COURSIER_JVM_CACHE` as well. If you
-set `COURSIER_CACHE` to `_COURSIER_ROOT_\Cache` (in the above example,
+set `COURSIER_CACHE` to `_COURSIER_ROOT_\Cache\v1` (in the above example,
 `_COURSIER_ROOT_` would be `F:\Win\Program Files\Coursier`), then I recommend
 `COURSIER_BIN_DIR` to be `_COURSIER_ROOT_\bin` and `COURSIER_JVM_CACHE` to be
 `_COURSIER_ROOT_\Cache\jvm`.
+
+In full, if your `_COURSIER_ROOT_` is `F:\Win\Program Files\Coursier`, then
+- `COURSIER_CACHE`: `F:\Win\Program Files\Coursier\Cache\v1`
+- `COURSIER_BIN_DIR`: `F:\Win\Program Files\Coursier\bin`
+- `COURSIER_JVM_CACHE`: `F:\Win\Program Files\Coursier\Cache\jvm`
 
 Try to run `.\cs.exe`. If you get a VCRUNTIME140.DLL missing error, or nothing
 happens, download the `vc_redist.x64.exe` from
@@ -276,6 +264,11 @@ If running `.\cs.exe` succeeds, you can run `.\cs.exe setup`, which will
 install Coursier and basic Scala development tools to `COURSIER_BIN_DIR`. If
 this succeeds, you will be able to remove the downloaded `cs.exe` and run the
 `cs` that exists on your `PATH`.
+
+`cs java --available` will list JDKs available for installation, and
+`cs java --jvm _JDK_NAME_ --setup`, with `_JDK_NAME_` set to an entry of that
+list, will download that specific JDK and set it to be your default with
+`JAVA_HOME`.
 
 ### Java (no Scala)
 

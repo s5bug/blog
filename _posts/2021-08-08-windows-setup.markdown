@@ -130,10 +130,11 @@ Windows Terminal can be installed via
 
 ### Install a Browser (o)
 
-If you prefer something other than Microsoft Edge, you might want to look at
-installing it through Chocolatey.
+If you prefer something other than Microsoft Edge, now would be the time to
+install it.
 
-Google Chrome can be installed via `winget install Google.Chrome`.
+- Google Chrome can be installed via `winget install Google.Chrome`.
+- Firefox can be installed via `winget install Mozilla.Firefox`.
 
 ### Install WinCompose (o)
 
@@ -153,6 +154,13 @@ MacType can be installed via `winget install MacType.MacType`.
 
 If you use a Chrome-based browser, you will want to
 [disable the renderer code integrity policy](https://github.com/snowie2000/mactype/wiki/Google-Chrome#policy-thanks-to-kcohar).
+
+You will want to add exclusions for Source games, as the Source console will be
+effectively unreadable under MacType. When you have the game open, open the
+MacType Wizard, go to the Process Manager, find the game, and check both
+options under the right-click menu. Both "Exclude this process" and "Don't
+replace fonts for this process" should be checked. Relaunching the game should
+make the console readable again.
 
 ### Sycnex Debloater
 

@@ -226,7 +226,7 @@ your User `Path` environment variable.
 Download
 [the latest version of the GHCUp installer](https://downloads.haskell.org/~ghcup/x86_64-mingw64-ghcup.exe)
 to somewhere on your `PATH`. Recommended is to add a new directory to your
-`PATH`, such as `F:\Win\ghcup\bin` or `%LocalAppData%\ghcup\bin`.
+`PATH`, such as `F:\Win\ghcup` or `%LocalAppData%\ghcup`.
 
 Set the environment variable `GHCUP_INSTALL_BASE_PREFIX` to `F:\Win\ghcup` or
 `%LocalAppData%\ghcup` respectively. Then, run `ghcup install ghc`. Afterwards,
